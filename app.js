@@ -3,12 +3,15 @@ const ctx = canvas.getContext("2d");
 const colors = document.querySelectorAll('.control__color');
 const range = document.querySelector('#jsRange');
 const modeBtn = document.querySelector('#jsMode');
+const saveBtn = document.querySelector('#jsSave');
 const INITIAL_COLOR = '#2C2C2C';
 const CANVAS_SIZE = 700;
 
 canvas.width = CANVAS_SIZE;
 canvas.height = CANVAS_SIZE;
 
+ctx.fillStyle = "#fff";
+ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 ctx.strokeStyle = INITIAL_COLOR;
 ctx.fillStyle = INITIAL_COLOR;
 ctx.lineWidth = 2.5;
@@ -63,6 +66,14 @@ function fillHandler(event) {
     }
 }
 
+function saveHandler(event) {
+    const url = canvas.toDataURL();
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'paintJS';
+    link.click();
+}
+
 if (canvas) {
     canvas.addEventListener('mousemove', onMouseMove);
     canvas.addEventListener('mousedown', startPaint);
@@ -79,4 +90,8 @@ if (range) {
 
 if (modeBtn) {
     modeBtn.addEventListener('click', modeHandler);
+}
+
+if (saveBtn) {
+    saveBtn.addEventListener('click', saveHandler);
 }
