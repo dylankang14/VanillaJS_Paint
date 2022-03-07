@@ -3,11 +3,14 @@ const ctx = canvas.getContext("2d");
 const colors = document.querySelectorAll('.control__color');
 const range = document.querySelector('#jsRange');
 const modeBtn = document.querySelector('#jsMode');
+const INITIAL_COLOR = '#2C2C2C';
+const CANVAS_SIZE = 700;
 
-canvas.width = 700;
-canvas.height = 700;
+canvas.width = CANVAS_SIZE;
+canvas.height = CANVAS_SIZE;
 
-ctx.strokeStyle = '#2c2c2c';
+ctx.strokeStyle = INITIAL_COLOR;
+ctx.fillStyle = INITIAL_COLOR;
 ctx.lineWidth = 2.5;
 
 let painting = false;
@@ -35,7 +38,9 @@ function onMouseMove(event) {
 }
 
 function colorHandler(event) {
-    ctx.strokeStyle = event.target.style.backgroundColor
+    const selColor = event.target.style.backgroundColor;
+    ctx.strokeStyle = selColor;
+    ctx.fillStyle = selColor;
 }
 
 function rangeHandler(event) {
@@ -52,11 +57,18 @@ function modeHandler(event) {
     }
 }
 
+function fillHandler(event) {
+    if (filling) {
+        ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+    }
+}
+
 if (canvas) {
     canvas.addEventListener('mousemove', onMouseMove);
     canvas.addEventListener('mousedown', startPaint);
     canvas.addEventListener('mouseup', stopPaint);
     canvas.addEventListener('mouseleave', stopPaint);
+    canvas.addEventListener('click', fillHandler);
 }
 
 colors.forEach(color => color.addEventListener('click', colorHandler));
